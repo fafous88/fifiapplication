@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/tita2"
+    tools:context=".PremierePage">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <EditText
+            android:background="#ffffff"
+            android:id="@+id/ed1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="350dp"
+            android:ems="10"
+            android:hint="Password"
+            android:inputType="numberPassword"
+            android:textColor="#000000"
+            android:textSize="50dp" />
+
+
+    </LinearLayout>
+
+    <Button
+        android:background="	#FFFF00"
+        android:layout_marginTop="500dp"
+        android:id="@+id/btnsignin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Login"
+        android:textSize="50dp">
+
+    </Button>
+    <Button
+        android:background="#FF00FF"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="S'inscrire"
+        android:textSize="50dp"
+        android:layout_marginTop="600dp"
+        android:id="@+id/btnsignup"/>
+
+    <TextView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:gravity="center"
+        android:text="Bienvenue"
+        android:textColor="#000000"
+        android:textSize="80dp" />
+
+
+
+
+
+    <EditText
+    android:id="@+id/ed3"
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:hint="username"
+        android:background="#ffffff"
+    android:layout_marginTop="200dp"
+    android:textSize="50dp"
+    android:layout_marginBottom="5dp"/>
+
+</RelativeLayout>
