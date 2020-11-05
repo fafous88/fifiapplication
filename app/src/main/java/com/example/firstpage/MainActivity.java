@@ -192,6 +192,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), GridItem2.class);
 
                 startActivity(intent);
+
                 // ==========
                 //imgV.setImageBitmap(bitmap);
             }
