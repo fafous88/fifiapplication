@@ -108,6 +108,7 @@ public class GridItem extends AppCompatActivity implements SpectrumPalette.OnCol
 
         /////////==================
         layi=findViewById(R.id.layoutt);
+        fifi=findViewById(R.id.fifi);
 
 
        Save=findViewById(R.id.save);
@@ -239,7 +240,7 @@ public class GridItem extends AppCompatActivity implements SpectrumPalette.OnCol
                             UUID.randomUUID().toString()+".png", "drawing");
                     if(imgSaved!=null){
                         Toast savedToast = Toast.makeText(getApplicationContext(),
-                                "Drawing saved to Gallery!", Toast.LENGTH_SHORT);
+                                "Image saved succefelly!", Toast.LENGTH_SHORT);
                         savedToast.show();
                     }
                     else{
