@@ -1,7 +1,9 @@
 package com.example.firstpage;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -23,9 +25,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.R.color;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.palette.graphics.Palette;
 import android.view.Menu;
@@ -48,6 +53,7 @@ import yuku.ambilwarna.AmbilWarnaDialog;
 
 public class GridItem extends AppCompatActivity implements SpectrumPalette.OnColorSelectedListener {
 
+    private static final int REQUEST_PERMISSION = 1001;
     private ImageButton Back;
     ImageButton Color;
     TextView text;
@@ -99,12 +105,23 @@ public class GridItem extends AppCompatActivity implements SpectrumPalette.OnCol
         lineView = new LineView(this);
         LinearLayout layout = (LinearLayout) findViewById(R.id.layoutt);
         layout.addView(lineView);
+
         /////////==================
+        layi=findViewById(R.id.layoutt);
+
+
+       Save=findViewById(R.id.save);
+        Save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showSavePaintingConfirmationDialog();
+            }
+        });
 
 
 
-    //=========================save picture
-       Save = findViewById(R.id.save);
+        //=========================save picture
+      /* Save = findViewById(R.id.save);
         Save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -133,7 +150,12 @@ public class GridItem extends AppCompatActivity implements SpectrumPalette.OnCol
                     e.printStackTrace();
                 }
             }
-        });
+        });*/
+      ///////////////////////////////
+        
+
+
+
         //==========================Back
         fifi = (Fifi) findViewById(R.id.fifi);
         Back = findViewById(R.id.back);
@@ -145,13 +167,14 @@ public class GridItem extends AppCompatActivity implements SpectrumPalette.OnCol
             }
         });
 
-         //============================quadrillage bitmap image
+
+        //============================quadrillage bitmap image
         ((ImageView) findViewById(R.id.img1)).setZ(1);
         lineView = new LineView(this);
         lineView.setZ(9999);
         FrameLayout layo = (FrameLayout) findViewById(R.id.layo);
         layo.addView(lineView);
-    ///////////===============================colorpicker
+        ///////////===============================colorpicker
         ly = findViewById(R.id.layoutt);
         DefaultColor = ContextCompat.getColor(this, R.color.colorAccent);
         Color = findViewById(R.id.color);
@@ -171,54 +194,74 @@ public class GridItem extends AppCompatActivity implements SpectrumPalette.OnCol
         LinearLayout lyout = (LinearLayout) findViewById(R.id.layoutt);
         lyout.addView(paintview);*/
         //===================================
-            rootLayout =findViewById(R.id.layo);
-            textViewTitle = findViewById(R.id.text_view_title);
-            textViewBody =findViewById(R.id.text_view_body);
-            imageView = findViewById(R.id.img1);
-            Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-            Palette.from(bitmap).maximumColorCount(32).generate(new Palette.PaletteAsyncListener() {
-                @Override
-                public void onGenerated(Palette palette) {
-                  pl= palette.getSwatches();
-                    vibrantSwatch = palette.getVibrantSwatch();
-                    lightVibrantSwatch = palette.getLightVibrantSwatch();
-                    darkVibrantSwatch = palette.getDarkVibrantSwatch();
-                    mutedSwatch = palette.getMutedSwatch();
-                    lightMutedSwatch = palette.getLightMutedSwatch();
-                    darkMutedSwatch = palette.getDarkMutedSwatch();
-                }
-            });
+        rootLayout = findViewById(R.id.layo);
+        textViewTitle = findViewById(R.id.text_view_title);
+        textViewBody = findViewById(R.id.text_view_body);
+        imageView = findViewById(R.id.img1);
+        Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+        Palette.from(bitmap).maximumColorCount(32).generate(new Palette.PaletteAsyncListener() {
+            @Override
+            public void onGenerated(Palette palette) {
+                pl = palette.getSwatches();
+                vibrantSwatch = palette.getVibrantSwatch();
+                lightVibrantSwatch = palette.getLightVibrantSwatch();
+                darkVibrantSwatch = palette.getDarkVibrantSwatch();
+                mutedSwatch = palette.getMutedSwatch();
+                lightMutedSwatch = palette.getLightMutedSwatch();
+                darkMutedSwatch = palette.getDarkMutedSwatch();
+            }
+        });
         //for(int i=0;i<7;i++)
-          //  liste[i] = pl.get(i).getTitleTextColor();
-            SpectrumPalette spectrumPalette1 = (SpectrumPalette)findViewById(R.id.palette);
-           // findViewById(R.id.bt).setBackgroundColor(liste[6]);
-         //   spectrumPalette1.setColors(liste);
-            spectrumPalette1.setOnColorSelectedListener(new SpectrumPalette.OnColorSelectedListener() {
-                @Override
-                public void onColorSelected(int color) {
-                    fifi.getPaint().setColor(color);
-                }
-            });
+        //  liste[i] = pl.get(i).getTitleTextColor();
+        SpectrumPalette spectrumPalette1 = (SpectrumPalette) findViewById(R.id.palette);
+        // findViewById(R.id.bt).setBackgroundColor(liste[6]);
+        //   spectrumPalette1.setColors(liste);
+        spectrumPalette1.setOnColorSelectedListener(new SpectrumPalette.OnColorSelectedListener() {
+            @Override
+            public void onColorSelected(int color) {
+                fifi.getPaint().setColor(color);
+            }
+        });
+
     }
 
     private void showSavePaintingConfirmationDialog() {
-    }
 
-    //==================conver image to bitmap
-    public Bitmap drawableToBitmap(Drawable drawable) {
-        if (drawable instanceof BitmapDrawable) {
-            return ((BitmapDrawable) drawable).getBitmap();
+            AlertDialog.Builder saveDialog = new AlertDialog.Builder(this);
+            saveDialog.setTitle("Save drawing");
+            saveDialog.setMessage("Save drawing to device Gallery?");
+            saveDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
+                public void onClick(DialogInterface dialog, int which){
+                    //save drawing
+                    fifi.setDrawingCacheEnabled(true);
+                    String imgSaved = MediaStore.Images.Media.insertImage(
+                            getContentResolver(), fifi.getDrawingCache(),
+                            UUID.randomUUID().toString()+".png", "drawing");
+                    if(imgSaved!=null){
+                        Toast savedToast = Toast.makeText(getApplicationContext(),
+                                "Drawing saved to Gallery!", Toast.LENGTH_SHORT);
+                        savedToast.show();
+                    }
+                    else{
+                        Toast unsavedToast = Toast.makeText(getApplicationContext(),
+                                "Oops! Image could not be saved.", Toast.LENGTH_SHORT);
+                        unsavedToast.show();
+                    }
+                    // Destroy the current cache.
+                    fifi.destroyDrawingCache();
+                }
+            });
+            saveDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+                public void onClick(DialogInterface dialog, int which){
+                    dialog.cancel();
+                }
+            });
+            saveDialog.show();
         }
 
-        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-        drawable.draw(canvas);
 
-        return bitmap;
-    }
 
-//========Gomme
+    //========Gomme
     public void clearCanvas(View v) {
         fifi.clearCanvas();
     }
@@ -294,8 +337,21 @@ public class GridItem extends AppCompatActivity implements SpectrumPalette.OnCol
     }
 
 
+    //==================conver image to bitmap
+    public Bitmap drawableToBitmap(Drawable drawable) {
+        if (drawable instanceof BitmapDrawable) {
+            return ((BitmapDrawable) drawable).getBitmap();
+        }
 
-}
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+
+        return bitmap;
+
+
+}}
 
 
 
