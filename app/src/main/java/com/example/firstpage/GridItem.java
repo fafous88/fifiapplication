@@ -1,14 +1,19 @@
 package com.example.firstpage;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -19,17 +24,23 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.R.color;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.palette.graphics.Palette;
-
+import android.view.Menu;
 import com.thebluealliance.spectrum.SpectrumPalette;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.security.cert.Extension;
 import java.util.List;
+import java.util.UUID;
+import android.app.Dialog;
+import android.content.DialogInterface;
+
 
 import yuku.ambilwarna.AmbilWarnaDialog;
 
@@ -45,6 +56,7 @@ public class GridItem extends AppCompatActivity implements SpectrumPalette.OnCol
     ImageView img1;
     LineView lineView2;
     Fifi fifi;
+    LinearLayout layi;
     LinearLayout ly;
     ImageButton Save, tita;
     BitmapDrawable drawable;
@@ -65,12 +77,15 @@ public class GridItem extends AppCompatActivity implements SpectrumPalette.OnCol
     private int swatchNumber;
     int liste[];
     List<Palette.Swatch> pl;
+
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        liste=new int[7];
+        // liste=new int[7];
+
         setContentView(R.layout.activity_grid_item);
         text = findViewById(R.id.griddata);
         img = findViewById(R.id.img1);
@@ -84,11 +99,12 @@ public class GridItem extends AppCompatActivity implements SpectrumPalette.OnCol
         lineView = new LineView(this);
         LinearLayout layout = (LinearLayout) findViewById(R.id.layoutt);
         layout.addView(lineView);
+        /////////==================
 
-        //////////====================
 
-       //=========================save picture
-        Save = findViewById(R.id.save);
+
+    //=========================save picture
+       Save = findViewById(R.id.save);
         Save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -183,6 +199,9 @@ public class GridItem extends AppCompatActivity implements SpectrumPalette.OnCol
                     fifi.getPaint().setColor(color);
                 }
             });
+    }
+
+    private void showSavePaintingConfirmationDialog() {
     }
 
     //==================conver image to bitmap

@@ -12,6 +12,7 @@ import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -26,7 +27,7 @@ public class Fifi extends View {
     Bitmap bitmap;
     Paint paint;
     Path path;
-    Canvas canvas;
+    static Canvas canvas;
     float mx, my;
     static final float TOLERANCE = 4;
     public Paint getPaint() {return paint;}
