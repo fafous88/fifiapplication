@@ -49,6 +49,7 @@ import android.content.DialogInterface;
 
 import yuku.ambilwarna.AmbilWarnaDialog;
 
+import static android.R.color.white;
 
 
 public class GridItem extends AppCompatActivity implements SpectrumPalette.OnColorSelectedListener {
@@ -226,6 +227,7 @@ public class GridItem extends AppCompatActivity implements SpectrumPalette.OnCol
 
     }
 
+
     private void showSavePaintingConfirmationDialog() {
 
             AlertDialog.Builder saveDialog = new AlertDialog.Builder(this);
@@ -234,10 +236,11 @@ public class GridItem extends AppCompatActivity implements SpectrumPalette.OnCol
             saveDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
                 public void onClick(DialogInterface dialog, int which){
                     //save drawing
+                    //fifi.setBackgroundColor(white);
                     fifi.setDrawingCacheEnabled(true);
                     String imgSaved = MediaStore.Images.Media.insertImage(
                             getContentResolver(), fifi.getDrawingCache(),
-                            UUID.randomUUID().toString()+".png", "drawing");
+                            UUID.randomUUID().toString()+".jpg", "drawing");
                     if(imgSaved!=null){
                         Toast savedToast = Toast.makeText(getApplicationContext(),
                                 "Image saved succefelly!", Toast.LENGTH_SHORT);

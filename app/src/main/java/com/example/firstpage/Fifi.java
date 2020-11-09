@@ -12,12 +12,15 @@ import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.graphics.Path;
+
+import com.example.firstpage.tita.FloodFill;
 
 
 public class Fifi extends View {
@@ -38,7 +41,7 @@ public class Fifi extends View {
         path = new Path();
         paint = new Paint();
 
-        paint.setColor(Color.BLACK);
+        paint.setColor(Color.RED);
         paint.setStyle(Paint.Style.STROKE);
         paint.setAntiAlias(true);
         paint.setStrokeJoin(Paint.Join.ROUND);
@@ -92,7 +95,10 @@ public class Fifi extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.drawPath(path, paint);
+      //  canvas.drawBitmap(bitmap,0,0,null);
     }
+
+
 
 
     @Override
@@ -116,7 +122,11 @@ public class Fifi extends View {
         }return true;
 
     }
-
+    private void paint(int x, int y) {
+        int targetColor=bitmap.getPixel(x,y);
+        FloodFill.flootFill(bitmap,new Point(x,y),targetColor,Common.COLOR_SELECTED);
+        invalidate();
+    }
     }
 
 

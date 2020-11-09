@@ -37,7 +37,7 @@ import com.example.firstpage.tita.FloodFill;
         @Override
         protected void onDraw(Canvas canvas) {
             super.onDraw(canvas);
-            canvas.drawBitmap(bitmap,0,0,null);
+            canvas.drawBitmap(bitmap,120,120,null);
 
         }
 
