@@ -1,6 +1,7 @@
 package com.example.firstpage.tita;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -25,6 +26,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -43,6 +45,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.UUID;
 
 import yuku.ambilwarna.AmbilWarnaDialog;
 
@@ -108,9 +111,15 @@ public class GridItem2 extends AppCompatActivity implements SpectrumPalette.OnCo
         layout.addView(lineView);
 
         //////////====================
-
+            Save=findViewById(R.id.save);
+            Save.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showSavePaintingConfirmationDialog();
+                }
+            });
        //=========================save picture
-        Save = findViewById(R.id.save);
+      /*  Save = findViewById(R.id.save);
         Save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -139,7 +148,7 @@ public class GridItem2 extends AppCompatActivity implements SpectrumPalette.OnCo
                     e.printStackTrace();
                 }
             }
-        });
+        });*/
       //==========================Back
         fifi = (Fifi) findViewById(R.id.fifi);
         Back = findViewById(R.id.back);
@@ -205,6 +214,42 @@ public class GridItem2 extends AppCompatActivity implements SpectrumPalette.OnCo
             });
 
     }
+
+    private void showSavePaintingConfirmationDialog() {
+
+        AlertDialog.Builder saveDialog = new AlertDialog.Builder(this);
+        saveDialog.setTitle("Save drawing");
+        saveDialog.setMessage("Save drawing to device Gallery?");
+        saveDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
+            public void onClick(DialogInterface dialog, int which){
+                //save drawing
+                //fifi.setBackgroundColor(white);
+                fifi.setDrawingCacheEnabled(true);
+                String imgSaved = MediaStore.Images.Media.insertImage(
+                        getContentResolver(), fifi.getDrawingCache(),
+                        UUID.randomUUID().toString()+".jpg", "drawing");
+                if(imgSaved!=null){
+                    Toast savedToast = Toast.makeText(getApplicationContext(),
+                            "Image saved succefelly!", Toast.LENGTH_SHORT);
+                    savedToast.show();
+                }
+                else{
+                    Toast unsavedToast = Toast.makeText(getApplicationContext(),
+                            "Oops! Image could not be saved.", Toast.LENGTH_SHORT);
+                    unsavedToast.show();
+                }
+                // Destroy the current cache.
+                fifi.destroyDrawingCache();
+            }
+        });
+        saveDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+            public void onClick(DialogInterface dialog, int which){
+                dialog.cancel();
+            }
+        });
+        saveDialog.show();
+    }
+
 
     public void newImage() {
         if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {

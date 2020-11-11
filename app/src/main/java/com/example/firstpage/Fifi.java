@@ -11,11 +11,15 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.LightingColorFilter;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.os.Bundle;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.graphics.Path;
@@ -24,7 +28,7 @@ import com.example.firstpage.tita.FloodFill;
 
 
 public class Fifi extends View {
-
+    private float brushSize, lastBrushSize;
     Context context;
     int width, height;
     Bitmap bitmap;
@@ -38,6 +42,7 @@ public class Fifi extends View {
     public Fifi(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
+        boolean erase = false;
         path = new Path();
         paint = new Paint();
 
@@ -45,9 +50,18 @@ public class Fifi extends View {
         paint.setStyle(Paint.Style.STROKE);
         paint.setAntiAlias(true);
         paint.setStrokeJoin(Paint.Join.ROUND);
-        paint.setStrokeWidth(4f);
+        paint.setStrokeWidth(10f);
 
-
+    }
+    public static Bitmap changeBitmapColor(Bitmap sourceBitmap, int color)
+    {
+        Bitmap resultBitmap = sourceBitmap.copy(sourceBitmap.getConfig(),true);
+        Paint paint = new Paint();
+        ColorFilter filter = new LightingColorFilter(color, 1);
+        paint.setColorFilter(filter);
+        Canvas canvas = new Canvas(resultBitmap);
+        canvas.drawBitmap(resultBitmap, 0, 0, paint);
+        return resultBitmap;
     }
 
     public Fifi(Object bitmap) {
@@ -80,21 +94,25 @@ public class Fifi extends View {
         }
     }
 
-    public void clearCanvas() {
+
+
+
+   public void clearCanvas() {
         path.reset();
         invalidate();
     }
 
-    public void upTouch() {
-        path.lineTo(mx, my);
+   public void upTouch() {
+       path.lineTo(mx, my);
 
-    }
+   }
 
     @Override
 
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.drawPath(path, paint);
+
       //  canvas.drawBitmap(bitmap,0,0,null);
     }
 
@@ -112,21 +130,27 @@ public class Fifi extends View {
                 invalidate();
                 break;
             case MotionEvent.ACTION_MOVE:
+
                 moveTouch(x, y);
                 invalidate();
                 break;
             case MotionEvent.ACTION_UP:
+
                 upTouch();
                 invalidate();
                 break;
-        }return true;
 
+        }
+
+         return true;
     }
+
     private void paint(int x, int y) {
         int targetColor=bitmap.getPixel(x,y);
         FloodFill.flootFill(bitmap,new Point(x,y),targetColor,Common.COLOR_SELECTED);
         invalidate();
     }
+
     }
 
 

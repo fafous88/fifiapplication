@@ -1,62 +1,48 @@
 package com.example.firstpage;
 
-import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.ColorFilter;
+import android.graphics.LightingColorFilter;
 import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.Layout;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.R.color;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.palette.graphics.Palette;
-import android.view.Menu;
+
 import com.thebluealliance.spectrum.SpectrumPalette;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.security.cert.Extension;
 import java.util.List;
 import java.util.UUID;
-import android.app.Dialog;
-import android.content.DialogInterface;
 
 
 import yuku.ambilwarna.AmbilWarnaDialog;
-
-import static android.R.color.white;
 
 
 public class GridItem extends AppCompatActivity implements SpectrumPalette.OnColorSelectedListener {
 
     private static final int REQUEST_PERMISSION = 1001;
     private ImageButton Back;
-    ImageButton Color;
+    ImageButton Color,eraser;
     TextView text;
     int DefaultColor;
     ImageView img;
@@ -112,6 +98,7 @@ public class GridItem extends AppCompatActivity implements SpectrumPalette.OnCol
         fifi=findViewById(R.id.fifi);
 
 
+
        Save=findViewById(R.id.save);
         Save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,8 +141,6 @@ public class GridItem extends AppCompatActivity implements SpectrumPalette.OnCol
             }
         });*/
       ///////////////////////////////
-        
-
 
 
         //==========================Back
@@ -222,10 +207,14 @@ public class GridItem extends AppCompatActivity implements SpectrumPalette.OnCol
             @Override
             public void onColorSelected(int color) {
                 fifi.getPaint().setColor(color);
+
+
             }
         });
 
+
     }
+
 
 
     private void showSavePaintingConfirmationDialog() {
@@ -266,7 +255,7 @@ public class GridItem extends AppCompatActivity implements SpectrumPalette.OnCol
 
 
     //========Gomme
-    public void clearCanvas(View v) {
+   public void clearCanvas(View v) {
         fifi.clearCanvas();
     }
 

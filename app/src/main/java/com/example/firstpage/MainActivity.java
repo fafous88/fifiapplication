@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity);
         Toast.makeText(MainActivity.this, "connected to firebase", Toast.LENGTH_LONG).show();
+
         gridView = findViewById(R.id.gridview);
         CustomAdapter customAdapter = new CustomAdapter();
 
